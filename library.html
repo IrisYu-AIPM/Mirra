@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Mirra 资产库</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Sans SC",sans-serif;background:#0c0c14;color:#e0e0f0;font-size:14px;line-height:1.7;padding:40px 20px;min-height:100vh}
+.wrap{max-width:740px;margin:0 auto}
+h1{font-family:"Noto Serif SC",serif;font-size:26px;color:#f0c040;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.subtitle{font-size:13px;color:#555570;margin-bottom:32px}
+
+/* 认知画像 */
+.profile-block{background:linear-gradient(135deg,rgba(96,160,240,.07),rgba(240,192,64,.04));border:1px solid rgba(96,160,240,.22);border-radius:14px;padding:22px 24px;margin-bottom:32px}
+.profile-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#60a0f0;margin-bottom:14px}
+.profile-body{font-size:13px;line-height:1.8;color:#a8c4e0;font-style:italic;margin-bottom:12px}
+.profile-cta{font-size:11px;color:#444466;margin-bottom:12px}
+.profile-item{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#a8c4e0;font-style:italic;line-height:1.75;margin-bottom:10px}
+.pi-n{width:20px;height:20px;border-radius:50%;background:rgba(96,160,240,.12);border:1px solid rgba(96,160,240,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#60a0f0;flex-shrink:0;margin-top:2px}
+.profile-use{font-size:12px;color:#555577;border-top:1px solid rgba(96,160,240,.1);padding-top:12px;margin-top:4px;line-height:1.65}
+.use-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#60a0f0;margin-right:8px}
+
+/* entry */
+.entry{background:#14141e;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:22px;margin-bottom:18px;transition:border-color .2s}
+.entry:hover{border-color:rgba(240,192,64,.18)}
+.entry-meta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.entry-date{font-family:"JetBrains Mono",monospace;font-size:11px;color:#555570}
+.entry-pins{font-size:11px;background:rgba(240,192,64,.1);border:1px solid rgba(240,192,64,.3);color:#f0c040;padding:2px 8px;border-radius:4px}
+.entry-title{font-size:12px;color:#6666aa;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.entry-toggle{background:transparent;border:1px solid rgba(255,255,255,.12);color:#8888aa;font-size:11px;padding:3px 11px;border-radius:4px;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .15s}
+.entry-toggle:hover{border-color:rgba(240,192,64,.45);color:#f0c040}
+.entry-real{display:flex;gap:10px;align-items:flex-start;background:rgba(232,144,74,.08);border:1px solid rgba(232,144,74,.2);border-radius:8px;padding:12px;margin-bottom:10px;font-size:13px;line-height:1.6}
+.real-badge{font-size:10px;font-weight:700;text-transform:uppercase;background:rgba(232,144,74,.2);color:#e8904a;padding:2px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.entry-shift{font-size:13px;color:#aaaacc;line-height:1.65;margin-bottom:12px;padding-left:12px;border-left:2px solid rgba(255,255,255,.1)}
+
+/* expandable */
+.entry-exp{display:none;flex-direction:column;gap:14px;margin-top:14px;border-top:1px solid rgba(255,255,255,.06);padding-top:14px}
+.entry-exp.open{display:flex}
+.exp-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#555570;margin-bottom:8px}
+.exp-portrait{font-size:13px;color:#90b8e0;font-style:italic;line-height:1.75;background:rgba(96,160,240,.05);border:1px solid rgba(96,160,240,.12);border-radius:8px;padding:12px}
+.belief-box{background:#0e0e1a;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.b-old{font-size:12px;color:#555570;text-decoration:line-through;line-height:1.55}
+.b-arr{font-size:11px;font-weight:700;color:#f0c040;text-transform:uppercase;letter-spacing:.06em}
+.b-new{font-size:14px;font-weight:600;color:#e8e8f0;line-height:1.6}
+.b-impact{font-size:12px;color:#8888aa;border-top:1px solid rgba(255,255,255,.06);padding-top:8px;line-height:1.55}
+.insights-exp{display:flex;flex-direction:column;gap:8px}
+.ins-item{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.6}
+.ins-n{width:20px;height:20px;border-radius:50%;background:rgba(240,192,64,.1);border:1px solid rgba(240,192,64,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#f0c040;flex-shrink:0;margin-top:2px}
+.act-item{display:flex;gap:8px;align-items:baseline;font-size:13px;margin-bottom:6px;line-height:1.55}
+.act-when{font-family:"JetBrains Mono",monospace;font-size:10px;background:rgba(76,175,128,.12);color:#4caf80;padding:2px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.open-q{font-size:13px;color:#8888aa;font-style:italic;line-height:1.6;margin-bottom:6px;padding-left:12px;border-left:2px dashed rgba(255,255,255,.1)}
+.pin-item{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.6;padding:8px 10px;border-radius:6px;margin-bottom:6px;background:#0b0b17;border:1px solid rgba(255,255,255,.06)}
+.pin-u{border-left:2px solid #f0c040}.pin-a{border-left:2px solid #60a0f0}.pin-n{border-left:2px solid #4caf80}
+.pin-role{font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px;flex-shrink:0;margin-top:2px}
+.pin-u .pin-role{background:rgba(240,192,64,.15);color:#f0c040}
+.pin-a .pin-role{background:rgba(96,160,240,.12);color:#60a0f0}
+.pin-n .pin-role{background:rgba(76,175,128,.12);color:#4caf80}
+.pin-content{color:#c0c0d8;flex:1}
+.pin-anno-lib{font-size:11px;color:#4caf80;margin-top:4px;padding-top:4px;border-top:1px solid rgba(76,175,128,.15);width:100%}
+
+/* next prompt */
+.entry-next{margin-top:16px;border-top:1px solid rgba(255,255,255,.06);padding-top:14px}
+.next-label{font-size:12px;font-weight:700;color:#f0c040;margin-bottom:4px}
+.next-sub{font-size:11px;color:#555570;margin-bottom:8px;line-height:1.5}
+.next-text{font-size:12px;background:#0b0b17;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:12px 12px 24px;color:#c0c0e0;line-height:1.65;cursor:pointer;transition:all .15s;position:relative;user-select:none}
+.next-text:hover{border-color:rgba(240,192,64,.5);background:#0e0c1a}
+.next-text::after{content:"点击复制";position:absolute;bottom:6px;right:10px;font-size:10px;color:#555570;font-family:"JetBrains Mono",monospace;transition:color .15s}
+.next-text.copied{border-color:rgba(240,192,64,.8);background:rgba(240,192,64,.05)}
+.next-text.copied::after{content:"✓ 已复制";color:#f0c040}
+
+/* 空状态 */
+.empty-lib{text-align:center;padding:60px 20px}
+.el-icon{font-size:40px;margin-bottom:20px;opacity:.4}
+.el-title{font-size:20px;font-weight:700;color:#8888aa;margin-bottom:16px}
+.el-desc{font-size:13px;color:#555570;line-height:2.1;margin-bottom:20px;text-align:left;display:inline-block}
+.el-cta{font-size:12px;color:#f0c040;background:rgba(240,192,64,.08);border:1px solid rgba(240,192,64,.25);border-radius:8px;padding:12px 20px;display:inline-block;line-height:1.7}
+.pin-clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pin-exp-btn{display:block;margin-top:5px;background:none;border:none;color:#6666aa;font-size:11px;cursor:pointer;padding:0;font-family:inherit;transition:color .15s}
+.pin-exp-btn:hover{color:#f0c040}
+.pin-item{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.65;padding:10px 10px;border-radius:6px;margin-bottom:6px;background:#0b0b17;border:1px solid rgba(255,255,255,.06)}
+
+/* ── 命运镜像 ── */
+.mirror-block{
+  background:linear-gradient(160deg,#12101a,#160f1e);
+  border:1px solid rgba(200,80,120,.25);
+  border-radius:14px;padding:0;margin-bottom:32px;
+  overflow:hidden;
+}
+.mirror-hdr{
+  padding:20px 24px 16px;
+  border-bottom:1px solid rgba(200,80,120,.15);
+  background:rgba(200,80,120,.04);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+}
+.mirror-hdr-left{display:flex;flex-direction:column;gap:4px}
+.mirror-hdr-title{
+  font-family:"Noto Serif SC",serif;
+  font-size:20px;font-weight:700;
+  background:linear-gradient(90deg,#e07060,#c060c0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:.04em;
+}
+.mirror-hdr-meta{font-size:11px;color:#664466;font-family:"JetBrains Mono",monospace}
+.mirror-regen{
+  background:transparent;border:1px solid rgba(200,80,120,.3);
+  color:#884466;font-size:11px;padding:5px 14px;border-radius:6px;
+  cursor:pointer;font-family:inherit;transition:all .15s;
+}
+.mirror-regen:hover{border-color:rgba(200,80,120,.6);color:#cc6080;background:rgba(200,80,120,.07)}
+
+/* DNA */
+.mirror-dna{padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.06)}
+.mirror-sec-lbl{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.12em;color:#884466;margin-bottom:14px;
+  font-family:"JetBrains Mono",monospace;
+}
+.dna-item{
+  margin-bottom:12px;padding:14px 16px;
+  background:rgba(255,255,255,.025);
+  border-radius:8px;border:1px solid rgba(255,255,255,.07);
+}
+.dna-item:last-child{margin-bottom:0}
+.dna-trait{font-size:15px;font-weight:700;color:#d88080;margin-bottom:6px;letter-spacing:.02em}
+.dna-evidence{font-size:12px;color:#777790;line-height:1.65;margin-bottom:6px;font-style:italic;padding-left:10px;border-left:2px solid rgba(200,80,120,.3)}
+.dna-impact{font-size:13px;color:#c0c0cc;line-height:1.6}
+
+/* 2035 */
+.mirror-2035{padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.06)}
+.parallel-tracks{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.track{border-radius:9px;padding:14px 16px;border:1px solid}
+.track-a{background:rgba(180,100,60,.07);border-color:rgba(180,100,60,.22)}
+.track-b{background:rgba(80,160,120,.07);border-color:rgba(80,160,120,.22)}
+.track-label{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  margin-bottom:8px;font-family:"JetBrains Mono",monospace;
+}
+.track-a .track-label{color:#c07050}
+.track-b .track-label{color:#50a080}
+.track-scene{font-size:13px;line-height:1.72;color:#b0b0c8}
+.pivot-box{
+  background:rgba(240,192,64,.05);
+  border:1px solid rgba(240,192,64,.2);
+  border-radius:8px;padding:12px 16px;
+}
+.pivot-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#a08030;margin-bottom:6px;font-family:"JetBrains Mono",monospace}
+.pivot-text{font-size:13px;color:#d0c070;line-height:1.65;font-weight:500}
+
+/* 盲点 */
+.mirror-blindspot{padding:20px 24px;background:rgba(240,60,60,.025)}
+.blindspot-statement{
+  font-size:15px;font-weight:700;line-height:1.6;
+  color:#e88070;margin-bottom:12px;
+  padding:12px 16px;
+  background:rgba(240,60,60,.08);
+  border:1px solid rgba(240,60,60,.22);
+  border-radius:8px;
+  border-left:3px solid rgba(240,60,60,.5);
+}
+.blindspot-pattern{font-size:13px;color:#888899;line-height:1.72;margin-bottom:10px}
+.blindspot-cost{
+  font-size:12px;color:#c07070;line-height:1.6;font-style:italic;
+  padding-top:10px;border-top:1px solid rgba(240,60,60,.1);
+  display:flex;align-items:baseline;gap:8px;
+}
+.cost-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#884444;white-space:nowrap;font-family:"JetBrains Mono",monospace}
+
+.mirror-ts{font-size:11px;color:#443344;font-family:"JetBrains Mono",monospace;padding:12px 24px;border-top:1px solid rgba(200,80,120,.1);text-align:right}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>✦ Mirra 资产库</h1>
+  <div class="subtitle" id="subtitle">加载中…</div>
+  <div id="content"></div>
+</div>
+<script src="library.js"></script>
+</body>
+</html>
